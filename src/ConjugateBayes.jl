@@ -22,6 +22,7 @@ import Distributions:
     BernoulliStats,
     BinomData,
     BinomialStats,
+    PoissonStats,
     CategoricalData,
     CategoricalStats,
     DirichletCanon,
