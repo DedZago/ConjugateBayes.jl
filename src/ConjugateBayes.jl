@@ -61,8 +61,12 @@ export
     # inteface
     posterior,
     posterior_canon,
+    predictive,
+    predictive_canon,
     posterior_rand,
     posterior_rand!,
+    predictive_rand,
+    predictive_rand!,
     posterior_randmodel,
     posterior_mode,
     fit_map
