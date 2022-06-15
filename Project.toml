@@ -1,4 +1,4 @@
-name = "ConjugatePriors"
+name = "ConjugateBayes"
 uuid = "1624bea9-42b1-5fc1-afd3-e96f729c8d6c"
 version = "0.4.1"
 

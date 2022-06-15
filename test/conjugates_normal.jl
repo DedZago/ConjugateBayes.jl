@@ -1,10 +1,10 @@
 using Distributions
-using ConjugatePriors
+using ConjugateBayes
 
 using Random: seed!
 
-using ConjugatePriors: NormalGamma, NormalInverseGamma, NormalInverseChisq
-using ConjugatePriors: posterior, posterior_rand, posterior_mode, posterior_randmodel, fit_map
+using ConjugateBayes: NormalGamma, NormalInverseGamma, NormalInverseChisq
+using ConjugateBayes: posterior, posterior_rand, posterior_mode, posterior_randmodel, fit_map
 
 n = 100
 w = rand(100)

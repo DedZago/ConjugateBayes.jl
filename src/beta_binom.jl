@@ -4,8 +4,29 @@
 #   Beta - Binomial
 #
 
-posterior_canon(pri::Beta, ss::BernoulliStats) = Beta(pri.α + ss.cnt1, pri.β + ss.cnt0)
-posterior_canon(pri::Beta, ss::BinomialStats) = Beta(pri.α + ss.ns, pri.β + (ss.ne * ss.n - ss.ns))
+update_parameters(pri::Beta, ss::BernoulliStats) = (pri.α + ss.cnt1, pri.β + ss.cnt0)
+update_parameters(pri::Beta, ss::BinomialStats) = (pri.α + ss.ns, pri.β + (ss.ne * ss.n - ss.ns))
+update_parameters(pri::Gamma, ss::PoissonStats) = (pri.α + ss.sx, pri.θ/(ss.tw*pri.θ + 1.0))
+
+posterior_canon(pri::Beta, ss::BernoulliStats) = Beta(update_parameters(pri, ss)...)
+posterior_canon(pri::Beta, ss::BinomialStats) = Beta(update_parameters(pri, ss)...)
+posterior_canon(pri::Gamma, ss::PoissonStats) = Gamma(update_parameters(pri, ss)...)
+
+function predictive_canon(pri::Beta, ss::BernoulliStats)
+	pars = update_parameters(pri, ss)
+	return Bernoulli(pars[1]/(pars[1] + pars[2]))
+end
+
+function predictive_canon(pri::Beta, ss::BinomialStats)
+	pars = update_parameters(pri, ss)
+	return BetaBinomial(ss.n, pars[1], pars[2])
+end
+
+function predictive_canon(pri::Gamma, ss::PoissonStats)
+	pars = update_parameters(pri, ss)
+	return NegativeBinomial(pars[1], pars[2]/(pars[2] + 1.0))
+end
+
 
 complete(G::Type{Bernoulli}, pri::Beta, p::Float64) = Bernoulli(p)
 

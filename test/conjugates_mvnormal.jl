@@ -1,15 +1,15 @@
 # Conjugate models for multivariate normal
 
 using Distributions
-using ConjugatePriors
+using ConjugateBayes
 
-using ConjugatePriors:
+using ConjugateBayes:
     posterior,
     posterior_randmodel,
     NormalWishart,
     NormalInverseWishart
 
-ConjugatePriors.NormalInverseWishart(nix2::NormalInverseChisq) =
+ConjugateBayes.NormalInverseWishart(nix2::NormalInverseChisq) =
     NormalInverseWishart([nix2.μ], nix2.κ, nix2.ν*reshape([nix2.σ2], 1, 1), nix2.ν)
 
 @testset "Conjugate models for multivariate normal" begin

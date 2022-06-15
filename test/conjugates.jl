@@ -1,7 +1,7 @@
 using Distributions
-using ConjugatePriors
+using ConjugateBayes
 
-import ConjugatePriors: posterior, posterior_rand, posterior_mode, posterior_randmodel, fit_map
+import ConjugateBayes: posterior, posterior_rand, posterior_mode, posterior_randmodel, fit_map
 
 n = 100
 w = rand(100)

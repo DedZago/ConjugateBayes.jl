@@ -1,4 +1,4 @@
-module ConjugatePriors
+module ConjugateBayes
 
 using Statistics
 using LinearAlgebra
