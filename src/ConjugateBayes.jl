@@ -62,7 +62,6 @@ export
     posterior,
     posterior_canon,
     predictive,
-    predictive_canon,
     posterior_rand,
     posterior_rand!,
     predictive_rand,

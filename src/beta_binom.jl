@@ -12,17 +12,17 @@ posterior_canon(pri::Beta, ss::BernoulliStats) = Beta(update_parameters(pri, ss)
 posterior_canon(pri::Beta, ss::BinomialStats) = Beta(update_parameters(pri, ss)...)
 posterior_canon(pri::Gamma, ss::PoissonStats) = Gamma(update_parameters(pri, ss)...)
 
-function predictive_canon(pri::Beta, ss::BernoulliStats)
+function predictive(pri::Beta, ss::BernoulliStats)
 	pars = update_parameters(pri, ss)
 	return Bernoulli(pars[1]/(pars[1] + pars[2]))
 end
 
-function predictive_canon(pri::Beta, ss::BinomialStats)
+function predictive(pri::Beta, ss::BinomialStats)
 	pars = update_parameters(pri, ss)
 	return BetaBinomial(ss.n, pars[1], pars[2])
 end
 
-function predictive_canon(pri::Gamma, ss::PoissonStats)
+function predictive(pri::Gamma, ss::PoissonStats)
 	pars = update_parameters(pri, ss)
 	return NegativeBinomial(pars[1], pars[2]/(pars[2] + 1.0))
 end
