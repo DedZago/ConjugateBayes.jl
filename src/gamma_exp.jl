@@ -11,9 +11,13 @@ function posterior_canon(prior::Gamma, ss::ExponentialStats)
 end
 
 function predictive(prior::Gamma, ss::ExponentialStats)
-	#! TODO: Lomax distribution
 	pars = update_parameters(prior, ss)
-	return Pareto(pars...)
+	return Lomax(pars[2], pars[1])
+end
+
+function predictive(post::Gamma, lik::Type{Exponential})
+	pars = params(post)
+	return Lomax(pars[2], pars[1])
 end
 
 complete(G::Type{Exponential}, pri::Gamma, θ::Float64) = Exponential(1.0 / θ)

@@ -17,13 +17,28 @@ function predictive(pri::Beta, ss::BernoulliStats)
 	return Bernoulli(pars[1]/(pars[1] + pars[2]))
 end
 
+function predictive(post::Beta, lik::Type{Bernoulli})
+	pars = params(post)
+	return Bernoulli(pars[1]/(pars[1] + pars[2]))
+end
+
 function predictive(pri::Beta, ss::BinomialStats)
 	pars = update_parameters(pri, ss)
 	return BetaBinomial(ss.n, pars[1], pars[2])
 end
 
+function predictive(post::Beta, lik::Type{Binomial}, n)
+	pars = params(post)
+	return BetaBinomial(n, pars[1], pars[2])
+end
+
 function predictive(pri::Gamma, ss::PoissonStats)
 	pars = update_parameters(pri, ss)
+	return NegativeBinomial(pars[1], pars[2]/(pars[2] + 1.0))
+end
+
+function predictive(post::Gamma, lik::Type{Poisson})
+	pars = params(post)
 	return NegativeBinomial(pars[1], pars[2]/(pars[2] + 1.0))
 end
 

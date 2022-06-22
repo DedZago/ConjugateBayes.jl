@@ -6,14 +6,27 @@
 #
 
 #### Normal prior on μ (with σ^2 known)
-
-function posterior_canon(pri::Normal, ss::NormalKnownSigmaStats)
+function update_parameters(pri::Normal, ss::NormalKnownSigmaStats) 
+    # NormalCanon(a,b) = N(a/b, 1/b)
 	p0 = 1.0 / abs2(pri.σ)
 	p1 = 1.0 / abs2(ss.σ)
 	h = pri.μ * p0 + ss.sx * p1
 	prec = p0 + ss.tw * p1
-	NormalCanon(h, prec)
+	return (h, prec)
 end
+
+posterior_canon(pri::Normal, ss::NormalKnownSigmaStats) = NormalCanon(update_parameters(pri, ss)...)
+
+function predictive(pri::Normal, ss::NormalKnownSigmaStats)
+    h, prec = update_parameters(pri, ss)
+    muPost = prec*h
+    sigmaPost = prec^(-1.0)
+	Normal(muPost, sqrt(abs2(sigmaPost) + abs2(ss.σ)))
+end
+
+predictive(post::Normal, lik::Type{NormalKnownSigma}, σ) = Normal(post.μ, sqrt(abs2(post.σ) + abs2(ss.σ)))
+
+#! TODO: from here
 
 const NormalWithFloat64 = Tuple{Normal, Float64}
 
