@@ -34,12 +34,12 @@ end
 
 function predictive(pri::Gamma, ss::PoissonStats)
 	pars = update_parameters(pri, ss)
-	return NegativeBinomial(pars[1], pars[2]/(pars[2] + 1.0))
+	return NegativeBinomial(pars[1], 1.0 - pars[2]/(pars[2] + 1.0))
 end
 
 function predictive(post::Gamma, lik::Type{Poisson})
 	pars = params(post)
-	return NegativeBinomial(pars[1], pars[2]/(pars[2] + 1.0))
+	return NegativeBinomial(pars[1], 1.0 - pars[2]/(pars[2] + 1.0))
 end
 
 
