@@ -44,6 +44,9 @@ end
     @test p.α ≈ pri.α + sum(x .* w)
     @test p.β ≈ pri.β + (sum(w) - sum(x .* w))
 
+    @test isa(predictive(p, Bernoulli), Bernoulli)
+    @test predictive(p, Bernoulli) = predictive(pri, Bernoulli, x)
+
     f = fit_map(pri, Bernoulli, x, w)
     @test isa(f, Bernoulli)
     @test succprob(f) ≈ mode(p)
@@ -93,6 +96,9 @@ end
     @test isa(p, Beta)
     @test p.α ≈ pri.α + sum(x .* w)
     @test p.β ≈ pri.β + (10 * sum(w) - sum(x .* w))
+
+    @test isa(predictive(p, Binomial, n), BetaBinomial)
+    @test predictive(p, Binomial, n) = predictive(pri, Binomial, (10, x))
 
     f = fit_map(pri, Binomial, (10, x), w)
     @test isa(f, Binomial)
@@ -171,6 +177,9 @@ end
     @test isa(p, Gamma)
     @test shape(p) ≈ shape(pri) + sum(w)
     @test rate(p) ≈ rate(pri) + sum(x .* w)
+
+    @test isa(predictive(p, Gamma), BetaBinomial)
+    @test predictive(p, Exponential) = predictive(pri, Exponential, x)
 
     f = fit_map(pri, Exponential, x, w)
     @test isa(f, Exponential)
